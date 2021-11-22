@@ -4,6 +4,7 @@ import Home from "./Home"
 import Login from "./Login";
 import Signup from "./Signup";
 import NoMatch from "./NoMatch";
+import Singlepost from "./Singlepost";
 import { Route, Routes } from "react-router-dom";
 
 function App()
@@ -14,6 +15,7 @@ function App()
             <Route path="/" element={<Home />} exact />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/article/:slug" element={<Singlepost />} />
             <Route path="*" element={<NoMatch />} />
         </Routes>
 

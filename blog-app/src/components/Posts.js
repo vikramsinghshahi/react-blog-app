@@ -16,6 +16,9 @@ function Posts(props)
     if (!props.articles)
     {
         return <Loader />
+    } else if (props.articles.length < 1)
+    {
+        return <h2>There is no article </h2>
     } else
     {
         return <>

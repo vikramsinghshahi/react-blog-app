@@ -13,7 +13,8 @@ class Home extends React.Component
         error: "",
         articlesCount: 0,
         articlesPerPage: 10,
-        activePageIndex: 1
+        activePageIndex: 1,
+        activeTab: ""
     }
 
     componentDidMount()
@@ -25,7 +26,8 @@ class Home extends React.Component
     componentDidUpdate(prevProps, prevState,)
     {
         console.log(prevProps, prevState, "this is from update")
-        if (prevState.activePageIndex !== this.state.activePageIndex)
+        if (prevState.activePageIndex !== this.state.activePageIndex ||
+            prevState.activeTab !== this.state.activeTab)
         {
             this.fetchData();
         }
@@ -38,8 +40,9 @@ class Home extends React.Component
     {
         let limit = this.state.articlesPerPage
         let offset = (this.state.activePageIndex - 1) * limit
+        let tag = this.state.activeTab
         // console.log(limit, offset, articlesURL + `?limit=${limit}&offset=${offset}`)
-        fetch(articlesURL + `?limit=${limit}&offset=${offset}`)
+        fetch(articlesURL + `?limit=${limit}&offset=${offset}` + (tag ? `&tag=${tag}` : ""))
             .then((res) =>
             {
                 if (!res.ok)
@@ -65,6 +68,20 @@ class Home extends React.Component
 
     }
 
+    removeTab = () =>
+    {
+        this.setState({
+            activeTab: "",
+        })
+    }
+
+    addTab = (value) =>
+    {
+        this.setState({
+            activeTab: value,
+        })
+    }
+
     render()
     {
         // console.log(this.state)
@@ -73,7 +90,7 @@ class Home extends React.Component
                 <Banner />
                 <div className="container flex">
                     <div className="f-p-p-container">
-                        <FeedNav />
+                        <FeedNav activeTab={this.state.activeTab} removeTab={this.removeTab} />
                         <Posts articles={this.state.articles} error={this.state.error} />
                         <Pagination articlesCount={this.state.articlesCount}
                             articlesPerPage={this.state.articlesPerPage}
@@ -82,7 +99,7 @@ class Home extends React.Component
                         />
                     </div>
                     <div className="sidebar">
-                        <Sidebar />
+                        <Sidebar addTab={this.addTab} />
                     </div>
                 </div>
 

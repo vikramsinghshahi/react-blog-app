@@ -46,7 +46,9 @@ class Sidebar extends React.Component
             return <>
                 <div>
                     {this.state.tags.map((tag, i) => (
-                        <button key={i}>{tag}</button>
+                        <button
+                            onClick={() => this.props.addTab(tag)}
+                            key={i}>{tag}</button>
                         // console.log(tag)
                     ))}
                 </div>
