@@ -254,3 +254,35 @@ article {
 .pagination-container button:hover {
   cursor: pointer;
 }
+
+.form-container {
+  text-align: center;
+  border: 2px solid black;
+  width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.form input {
+  width: 100%;
+  padding: 10px 0px;
+  margin-top: 10px;
+}
+
+.feed .flex {
+  justify-content: left;
+}
+
+.feed li {
+  margin-right: 30px;
+  font-size: 30px;
+}
+
+/* .feed li Link .active-feednav {
+  color: rgb(17, 197, 17);
+  text-decoration: none;
+} */
+
+.active-feednav {
+  color: green;
+}
