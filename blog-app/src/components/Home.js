@@ -25,7 +25,7 @@ class Home extends React.Component
 
     componentDidUpdate(prevProps, prevState,)
     {
-        console.log(prevProps, prevState, "this is from update")
+        // console.log(prevProps, prevState, "this is from update")
         if (prevState.activePageIndex !== this.state.activePageIndex ||
             prevState.activeTab !== this.state.activeTab)
         {

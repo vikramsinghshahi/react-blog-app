@@ -1,5 +1,10 @@
 import React from "react";
 import Validation from "../utli/validation/validation";
+import { signupURL } from "../utli/Const";
+import { withRouter } from "react-router-dom"
+import { Link } from "react-router-dom";
+
+
 class Signup extends React.Component
 {
     state = {
@@ -18,32 +23,6 @@ class Signup extends React.Component
         let { name, value } = event.target;
         let errors = { ...this.state.errors };
         Validation(errors, name, value)
-        // switch (name)
-        // {
-        //     case "email":
-        //         let emailError = value.indexOf("@") === -1 ? `Email does not contain @` : "";
-        //         errors.email = emailError;
-        //         break;
-        //     case "username":
-        //         let usernameError = value.length < 7 ? `Username cant be less then 7 character ` : "";
-        //         errors.username = usernameError;
-        //         break;
-        //     case "password":
-        //         let passwordError
-        //         let re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-        //         if (value.length < 8)
-        //         {
-        //             passwordError = `password cant be less then 8 character`
-        //         } else if (!re.test(value))
-        //         {
-        //             passwordError = "password must contain a character and a number";
-        //         }
-        //         errors.password = passwordError;
-        //         break;
-        //     default:
-        //         return errors;
-
-        // }
         this.setState({
             [name]: value, errors
         })
@@ -52,18 +31,57 @@ class Signup extends React.Component
     handleSubmit = (event) =>
     {
         event.preventDefault();
-        // console.log(event.target.value)
+        // console.log("hello")
+        const { username, password, email } = this.state;
+        fetch(signupURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                user: { username, password, email }
+            })
+        }
+        ).then((res) =>
+        {
+            if (!res.ok)
+            {
+                return res.json().then(({ errors }) =>
+                {
+
+                    return Promise.reject(errors)
+                })
+            }
+
+            return res.json();
+        }).then(({ user }) =>
+        {
+            this.props.updateUser(user)
+            this.setState({
+                username: "",
+                email: "",
+                password: "",
+
+            })
+            this.props.history.push('/')
+        }
+        ).catch((errors) =>
+
+            this.setState({
+                errors
+            })
+        );
     }
 
     render()
     {
-        console.log(this.state)
+        // console.log(this.state)
         const { username, email, password, errors } = this.state;
         return <>
             <div className="container form-container">
                 <h2>Signup Form</h2>
                 <p>
-                    <a href="by">Have an account?</a>
+                    <Link to="/login">Have an account?</Link>
                 </p>
                 <form className="form">
                     <input type="text"
@@ -100,4 +118,4 @@ class Signup extends React.Component
     }
 }
 
-export default Signup;
+export default withRouter(Signup);

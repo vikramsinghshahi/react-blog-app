@@ -2,7 +2,7 @@ import React from "react";
 import { articlesURL } from "../utli/Const"
 import Loader from "./Loader";
 // import { useParams } from "react-router-dom";
-// import { withRouter } from "react-router";
+// import { withRouter } from "react-router-dom";
 
 class Singlepost extends React.Component
 {
@@ -18,7 +18,8 @@ class Singlepost extends React.Component
     componentDidMount()
     {
 
-        fetch(articlesURL + "/slug")
+        let slug = this.props.match.params.slug;
+        fetch(articlesURL + "/" + slug)
             .then((res) =>
             {
                 if (!res.ok)
@@ -39,6 +40,8 @@ class Singlepost extends React.Component
     render()
     {
         const { article, error } = this.state;
+        console.log(this.props.match.params.slug)
+        console.log(article)
         if (error)
         {
             return <h2>{error}</h2>
@@ -50,34 +53,29 @@ class Singlepost extends React.Component
         {
             return <>
                 <h2>This is single  article  component</h2>
-                {/* <article>
-                <div className="article-meta flex">
-                    <div className="flex">
-                        <figure>
-                            <img src={article.author.image || `logo512.png`} alt="" />
-                        </figure>
-                        <div className="info">
-                            <NavLink to="/article/:slug">
-                                {article.author.username}
-                            </NavLink>
-                            <p>{article.createdAt.split("T")[0]}</p>
+                <article>
+                    <div className="article-meta flex">
+                        <div className="flex">
+                            <figure>
+                                <img src={article.author.image || `logo512.png`} alt="" />
+                            </figure>
+                            <div className="info">
+                                <p>{article.createdAt.split("T")[0]}</p>
+                                <p>{article.body}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button>like 1</button>
                         </div>
                     </div>
                     <div>
-                        <button>like 1</button>
+                        <h2>{article.title}</h2>
+                        <p>{article.description}</p>
+                        <div className="flex">
+                            <span>taglist</span>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <h2>{article.title}</h2>
-                    <p>{article.description}</p>
-                    <div className="flex">
-                        <NavLink to={`/article/${article.slug}`} exact>
-                            <span>Read more ....</span>
-                        </NavLink>
-                        <span>taglist</span>
-                    </div>
-                </div>
-            </article> */}
+                </article>
             </>
         }
     }
