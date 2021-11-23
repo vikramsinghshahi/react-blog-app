@@ -25,7 +25,7 @@ function Post(props)
                 <h2>{article.title}</h2>
                 <p>{article.description}</p>
                 <div className="flex">
-                    <NavLink to={`/article/${article.slug}`} exact="true">
+                    <NavLink to={`/article/${article.slug}`} exact={true}>
                         <span>Read more ....</span>
                     </NavLink>
                     <span>taglist</span>

@@ -1,6 +1,8 @@
 import React from "react";
 import Validation from "../utli/validation/validation";
-
+import { loginURL } from "../utli/Const";
+import { withRouter } from "react-router"
+import { Link } from "react-router-dom"
 class Login extends React.Component
 {
     state = {
@@ -17,31 +19,6 @@ class Login extends React.Component
         let { name, value } = event.target;
         let errors = { ...this.state.errors };
         Validation(errors, name, value)
-        // switch (name)
-        // {
-        //     case "email":
-        //         let emailError = value.indexOf("@") === -1 ? `Email does not contain @` : "";
-        //         errors.email = emailError;
-        //         break;
-        //     case "password":
-        //         let passwordError
-        //         let re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-        //         if (value.length < 8)
-        //         {
-        //             passwordError = `password cant be less then 8 character`
-        //         } else if (!re.test(value))
-        //         {
-        //             passwordError = "password must contain a character and a number";
-        //         }
-        //         errors.password = passwordError;
-        //         break;
-        //     default:
-        //         return errors
-
-
-        // }
-
-
         this.setState({
             [name]: value, errors
         })
@@ -50,7 +27,46 @@ class Login extends React.Component
     handleSubmit = (event) =>
     {
         event.preventDefault();
+        // console.log("hello")
+        const { password, email } = this.state;
+        fetch(loginURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                user: { password, email }
+            })
+        }
+        ).then((res) =>
+        {
+            if (!res.ok)
+            {
+                return res.json().then(({ errors }) =>
+                {
+                    return Promise.reject(errors)
+                })
+            }
 
+            return res.json();
+        }).then(({ user }) =>
+        {
+            this.props.updateUser(user)
+            this.props.history.push('/')
+        }
+        ).catch((errors) =>
+
+            this.setState((prevState) =>
+            {
+                return ({
+                    ...prevState,
+                    errors: {
+                        ...prevState.errors,
+                        email: "Email or password is in correct"
+                    }
+                })
+            }
+            ))
     }
     render()
     {
@@ -60,7 +76,7 @@ class Login extends React.Component
             <div className="container form-container">
                 <h2>login Form</h2>
                 <p>
-                    <a href="by">need an account?</a>
+                    <Link to="/signup">Need an account?</Link>
                 </p>
                 <form className="form">
                     <input type="email"
@@ -91,4 +107,4 @@ class Login extends React.Component
 }
 
 
-export default Login;
+export default withRouter(Login);
