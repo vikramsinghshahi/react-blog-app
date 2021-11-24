@@ -1,6 +1,7 @@
 import React from "react";
 import { articlesURL } from "../utli/Const"
 import Loader from "./Loader";
+import { Link, withRouter } from "react-router-dom"
 // import { useParams } from "react-router-dom";
 // import { withRouter } from "react-router-dom";
 
@@ -40,8 +41,9 @@ class Singlepost extends React.Component
     render()
     {
         const { article, error } = this.state;
-        console.log(this.props.match.params.slug)
-        console.log(article)
+        // console.log(this.props.match.params.slug)
+        // console.log(article)
+        console.log(this.props)
         if (error)
         {
             return <h2>{error}</h2>
@@ -75,6 +77,21 @@ class Singlepost extends React.Component
                             <span>taglist</span>
                         </div>
                     </div>
+                    {this.props.user === null ?
+                        <footer>
+                            <div className="singlepost-footer">
+                                <p>
+                                    <Link to="/login">
+                                        login
+                                    </Link>or
+                                    <Link to="/signup">
+                                        signup
+                                    </Link> to add comment on the article
+                                </p>
+                            </div>
+                        </footer>
+                        : ""
+                    }
                 </article>
             </>
         }
@@ -90,4 +107,4 @@ class Singlepost extends React.Component
 // }
 
 
-export default Singlepost;
+export default withRouter(Singlepost);

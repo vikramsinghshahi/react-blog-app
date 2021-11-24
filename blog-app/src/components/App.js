@@ -21,6 +21,7 @@ class App extends React.Component
         user: null,
         isverfiying: true,
     }
+
     updateUser = (user) =>
     {
         this.setState({
@@ -77,14 +78,14 @@ class App extends React.Component
         return <>
             <Header isloggedIn={this.state.isloggedIn} user={this.state.user} />
             {
-                this.state.isloggedIn ? <AuthenicationApp /> : <UnAuthenicationApp updateUser={this.updateUser} />
+                this.state.isloggedIn ? <AuthenicationApp user={this.state.user} /> : <UnAuthenicationApp updateUser={this.updateUser} user={this.state.user} />
             }
 
         </>
     }
 }
 
-function AuthenicationApp()
+function AuthenicationApp(props)
 {
     return <>
         <Switch>
@@ -92,15 +93,17 @@ function AuthenicationApp()
                 <Home />
             </Route>
             <Route path="/new-post"  >
-                <Newpost />
+                <Newpost user={props.user} />
             </Route>
             <Route path="/profile"  >
-                <Profile />
+                <Profile user={props.user} />
             </Route>
             <Route path="/setting"  >
-                <Setting />
+                <Setting user={props.user} />
             </Route>
-            <Route path="/article/:slug" component={Singlepost} />
+            <Route path="/article/:slug" >
+                <Singlepost user={props.user} />
+            </Route>
             <Route path="*" >
                 <NoMatch />
             </Route>
@@ -124,6 +127,9 @@ function UnAuthenicationApp(props)
             </Route>
             <Route path="/signup"  >
                 <Signup updateUser={props.updateUser} />
+            </Route>
+            <Route path="/article/:slug" >
+                <Singlepost user={props.user} />
             </Route>
             <Route path="*" >
                 <NoMatch />
