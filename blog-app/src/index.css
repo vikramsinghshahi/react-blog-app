@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply py-2 px-4  font-semibold rounded-lg shadow-md  focus:outline-none focus:ring-2  focus:ring-opacity-75;
+  }
+  .btn-green {
+    @apply bg-green-500 text-white hover:bg-green-700 focus:ring-green-400;
+  }
+  .btn-blue {
+    @apply bg-blue-500 text-white hover:bg-blue-700 focus:ring-blue-400;
+  }
+  .btn-indigo {
+    @apply bg-indigo-500 text-white font-semibold hover:bg-indigo-700  focus:ring-indigo-400;
+  }
+  .btn-active {
+    @apply bg-gray-700;
+  }
+  .btn-primary {
+    @apply bg-gray-400 text-gray-50 hover:bg-gray-500;
+  }
+}
+
+input:disabled {
+  background: rgb(163, 159, 159);
+  cursor: not-allowed;
+}
