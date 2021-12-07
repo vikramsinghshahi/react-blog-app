@@ -1,29 +1,66 @@
-function Pagination(props)
+function Pagiantion(props)
 {
-    // console.log(props)
-    let { articlesCount, articlesPerPage } = props;
-    let numberOfpages = Math.ceil(articlesCount / articlesPerPage)
+    let {
+        articlesCount,
+        articlesPerPage,
+        activePageIndex,
+        updateCurrentPageIndex,
+    } = props;
+    let numberOfPages = Math.ceil(articlesCount / articlesPerPage);
+
     let pagesArray = [];
-    for (let i = 1; i <= numberOfpages; i++)
+    for (let i = 1; i <= numberOfPages; i++)
     {
-        pagesArray.push(i)
+        pagesArray.push(i);
     }
+    return (
+        <>
+            <div className="flex justify-between">
+                {activePageIndex !== 1 && numberOfPages !== 0 && (
+                    <p
+                        className="font-bold self-center cursor-pointer hover:shadow-lg"
+                        onClick={() =>
+                            updateCurrentPageIndex(
+                                activePageIndex - 1 < 1 ? 1 : activePageIndex - 1
+                            )
+                        }
+                    >
+                        {'< Prev'}
+                    </p>
+                )}
 
-    // console.log(pagesArray)
-
-    return <>
-        <div className="pagination-container">
-            <button onClick={() => props.updateActivePageIndex(props.activePageIndex - 1 < 1 ? 1 : props.activePageIndex - 1)}>Prev</button>
-            {pagesArray.map((p, i) => (
-                <button key={i}
-                    className={props.activePageIndex === p ? "active" : ""}
-                    onClick={() => props.updateActivePageIndex(p)}
-                >{p}</button>
-            ))}
-            <button onClick={() => props.updateActivePageIndex(props.activePageIndex + 1 > numberOfpages ? numberOfpages : props.activePageIndex + 1)}>Next</button>
-
-        </div>
-    </>
+                {pagesArray.map((page, i) =>
+                {
+                    return (
+                        <span
+                            key={page}
+                            className={
+                                activePageIndex === page
+                                    ? 'bg-gray-800 text-white py-2 px-4 cursor-pointer hover:bg-green-500 rounded'
+                                    : 'border border-gray-400 bg-green-50 py-2 px-4 cursor-pointer hover:bg-blue-400 rounded'
+                            }
+                            onClick={() => updateCurrentPageIndex(page)}
+                        >
+                            {page}
+                        </span>
+                    );
+                })}
+                {activePageIndex !== numberOfPages && numberOfPages !== 0 && (
+                    <p
+                        className="font-bold self-center cursor-pointer hover:shadow-lg"
+                        onClick={() =>
+                            updateCurrentPageIndex(
+                                activePageIndex + 1 > numberOfPages
+                                    ? numberOfPages
+                                    : activePageIndex + 1
+                            )
+                        }
+                    >
+                        {'Next >'}
+                    </p>
+                )}
+            </div>
+        </>
+    );
 }
-
-export default Pagination;
+export default Pagiantion;
